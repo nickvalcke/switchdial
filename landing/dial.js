@@ -157,6 +157,12 @@ function attachHover() {
     lastSegment = null;
   }
 
+  // Mobile: tap "try me" to engage the dial.
+  const tryBtn = dial.querySelector(".try-me-btn");
+  if (tryBtn) {
+    tryBtn.addEventListener("click", () => dial.classList.add("is-engaged"));
+  }
+
   // Mouse
   dial.addEventListener("mousemove", (e) => update(e.clientX, e.clientY));
   dial.addEventListener("mouseleave", reset);
