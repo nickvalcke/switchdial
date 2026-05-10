@@ -21,77 +21,82 @@
       <section class="hero">
         <div class="hero-text">
           <h1>switchdial</h1>
-          <p class="tagline">A radial app switcher for macOS.</p>
+          <p class="tagline">
+            A radial app switcher for macOS, inspired by
+            <a href="https://twitter.com/raunofreiberg">@raunofreiberg</a>'s
+            <a href="https://rauno.me/craft/interaction-design#metaphors"
+              >article on interaction design</a
+            >.
+          </p>
           <div class="actions">
-            <a class="btn primary" href="https://github.com/nickvalcke/switchdial/releases/download/v0.0.1/switchdial-0.0.0-arm64.dmg"
+            <a
+              class="btn primary"
+              href="https://github.com/nickvalcke/switchdial/releases/download/v0.0.1/switchdial-0.0.0-arm64.dmg"
               >Download for Mac</a
             >
           </div>
           <p class="brew-hint">
-            Or install via Homebrew:
-            <code>brew install --cask nickvalcke/switchdial/switchdial</code>
+            or <code>brew install --cask nickvalcke/switchdial/switchdial</code>
           </p>
         </div>
 
         <div class="hero-visual">
-          <div class="try-me" aria-hidden="true">
+          <div id="dial" class="dial">
+            <svg class="dial-svg" viewBox="0 0 600 600"></svg>
+            <svg class="rim-hover-svg" viewBox="0 0 600 600"></svg>
+            <div class="dial-label">Enter</div>
+
             <svg
               class="try-me-arrow"
               viewBox="0 0 140 100"
               width="140"
               height="100"
+              aria-hidden="true"
             >
               <defs>
                 <marker
                   id="try-me-head"
-                  viewBox="0 0 10 10"
-                  refX="9"
-                  refY="5"
-                  markerWidth="5"
-                  markerHeight="5"
+                  viewBox="0 0 10 4"
+                  refX="10"
+                  refY="2"
+                  markerWidth="7"
+                  markerHeight="2.5"
                   orient="auto-start-reverse"
                 >
-                  <path d="M 0 0 L 9 5 L 0 10 z" fill="#b0b0b0" />
+                  <path d="M 0 0 L 10 2 L 0 4 z" fill="#b0b0b0" />
                 </marker>
               </defs>
               <path
-                d="M 130 90 Q 80 100 40 60 T 14 18"
+                d="M 130 90 Q 60 70 14 18"
                 stroke="#b0b0b0"
                 stroke-width="2"
                 fill="none"
-                stroke-linecap="round"
+                stroke-linecap="butt"
                 marker-end="url(#try-me-head)"
               />
             </svg>
-            <span class="try-me-text">try me</span>
-          </div>
-          <div id="dial" class="dial">
-            <svg class="dial-svg" viewBox="0 0 600 600"></svg>
-            <svg class="rim-hover-svg" viewBox="0 0 600 600"></svg>
-            <div class="dial-label">Enter</div>
+            <span class="try-me-text" aria-hidden="true">try me</span>
           </div>
         </div>
       </section>
 
       <section class="install">
-        <h2>Get going in 30 seconds</h2>
-        <ol>
+        <ol class="steps">
           <li>
-            Download and open the DMG, drag <strong>switchdial</strong> to
-            Applications.
+            <p>01</p>
+            <p>Drag <strong>switchdial</strong> to Applications.</p>
           </li>
           <li>
-            Open it. macOS will ask for <strong>Accessibility</strong>
-            permission — that's how it sees the Option+click gesture. Grant it
-            in System Settings → Privacy &amp; Security → Accessibility.
+            <p>02</p>
+            <p>Grant <strong>Accessibility</strong> permission when prompted.</p>
           </li>
           <li>
-            On first launch, Settings opens automatically. Click the empty
-            dial slots to add your six most-used apps.
+            <p>03</p>
+            <p>Pick your six apps in Settings.</p>
           </li>
           <li>
-            Anywhere, anytime: hold <kbd>⌥</kbd>, click, flick toward the app.
-            Release.
+            <p>04</p>
+            <p>Hold <kbd>⌥</kbd>, click, flick, release.</p>
           </li>
         </ol>
       </section>

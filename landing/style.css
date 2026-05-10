@@ -27,6 +27,61 @@ main {
   padding: 64px 24px 96px;
 }
 
+/* ---- Entrance animation (800ms staged) ----
+   1. h1                        @0–270ms   slide+fade
+   2. dial                      @160–430ms fade
+   3. tagline + button + brew   @320–590ms slide+fade
+   4. steps                     @530–800ms slide+fade
+*/
+@keyframes slide-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.hero-text h1 {
+  animation: slide-fade-up 270ms cubic-bezier(0.2, 0.8, 0.2, 1) 0ms both;
+}
+.dial,
+.try-me-arrow,
+.try-me-text {
+  animation: fade-in 270ms ease-out 160ms both;
+}
+.tagline,
+.actions,
+.brew-hint {
+  animation: slide-fade-up 270ms cubic-bezier(0.2, 0.8, 0.2, 1) 320ms both;
+}
+.steps {
+  animation: slide-fade-up 270ms cubic-bezier(0.2, 0.8, 0.2, 1) 530ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-text h1,
+  .dial,
+  .try-me-arrow,
+  .try-me-text,
+  .tagline,
+  .actions,
+  .brew-hint,
+  .steps {
+    animation: none;
+  }
+}
+
 /* ---- Hero ---- */
 .hero {
   display: grid;
@@ -39,14 +94,25 @@ main {
 .hero-text h1 {
   margin: 0;
   font-size: 56px;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: -0.02em;
 }
 .tagline {
-  margin: 16px 0 28px;
-  font-size: 18px;
+  margin: 16px 0 32px;
+  font-size: 17px;
+  line-height: 1.45;
   color: #b0b0b0;
-  max-width: 38ch;
+  max-width: 44ch;
+}
+.tagline a {
+  color: #d0d0d0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: #444;
+  transition: text-decoration-color 120ms ease;
+}
+.tagline a:hover {
+  text-decoration-color: #d0d0d0;
 }
 
 .actions {
@@ -74,23 +140,15 @@ main {
 }
 
 .brew-hint {
-  margin: 0;
+  margin: 12px 0 0;
   font-size: 13px;
   color: #6f6f6f;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
 }
 .brew-hint code {
-  background: #181818;
-  border: 1px solid #232323;
-  border-radius: 6px;
-  padding: 4px 8px;
   font-family:
     "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 12px;
-  color: #d0d0d0;
+  font-size: 12.5px;
+  color: #b0b0b0;
 }
 
 kbd {
@@ -113,30 +171,30 @@ kbd {
   place-items: center;
 }
 
-.try-me {
-  position: absolute;
-  /* lower-right of the dial; arrow curves up-left toward it */
-  bottom: -20px;
-  right: -40px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  pointer-events: none;
-  color: #b0b0b0;
-  z-index: 2;
-}
+/* Arrow + text are positioned relative to the .dial container so the
+   arrow tip lands at a predictable spot on the dial. */
 .try-me-arrow {
-  display: block;
-  margin-bottom: -10px;
-  margin-right: -8px;
+  position: absolute;
+  /* Place the SVG so its top-left tip (around path coord 14,18) sits right
+     on the dial's right edge, slightly below center. */
+  right: -90px;
+  bottom: -28px;
+  pointer-events: none;
+  z-index: 3;
 }
 .try-me-text {
+  position: absolute;
+  right: -90px;
+  bottom: -64px;
   font-family: "Caveat", cursive;
   font-size: 32px;
   font-weight: 700;
   line-height: 1;
+  color: #b0b0b0;
   transform: rotate(6deg);
-  margin-right: 16px;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 3;
 }
 .dial {
   position: relative;
@@ -211,7 +269,7 @@ kbd {
 
 /* ---- Sections (no separator lines) ---- */
 section {
-  padding: 48px 0;
+  padding: 120px 0;
 }
 section h2 {
   margin: 0 0 24px;
@@ -222,16 +280,41 @@ section h2 {
   font-weight: 600;
 }
 
-.install ol {
+.steps {
+  list-style: none;
   margin: 0;
-  padding-left: 20px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+.steps li {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.step-num {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: #5a5a5a;
+  font-weight: 600;
+  font-feature-settings: "tnum";
+}
+.steps p {
+  margin: 0;
+  font-size: 14px;
   color: #c0c0c0;
+  line-height: 1.45;
 }
-.install li {
-  margin-bottom: 12px;
-}
-.install strong {
+.steps strong {
   color: #f0f0f0;
+  font-weight: 600;
+}
+
+@media (max-width: 720px) {
+  .steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 footer {
