@@ -147,9 +147,6 @@ function attachHover() {
 
     label.textContent =
       hovered !== null ? SEGMENTS[hovered].app : "Enter";
-    // Toggle the .has-hover class so the mobile "hold down" hint hides as
-    // soon as the user is over a segment.
-    dial.classList.toggle("has-hover", hovered !== null);
   }
 
   function reset() {
@@ -157,7 +154,6 @@ function attachHover() {
     icons.forEach((ic) => ic.classList.remove("is-hovered"));
     rimSvg.style.opacity = "0";
     label.textContent = "Enter";
-    dial.classList.remove("has-hover");
     lastSegment = null;
   }
 
