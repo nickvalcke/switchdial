@@ -83,13 +83,13 @@ function listInstalledApps() {
 let uIOhook = null;
 let UiohookKey = null;
 
-let optionDown = false;
-// `overlayShown` is true while Option is held and we've put the invisible
+let ctrlDown = false;
+// `overlayShown` is true while Control is held and we've put the invisible
 // click-catching window over the screen. `wheelOpen` is true once the user
 // has clicked and the wheel circles are actually drawn.
 let overlayShown = false;
 let wheelOpen = false;
-// "gesture" = opened by Option+drag (mouseup commits); "menu" = opened by
+// "gesture" = opened by Control+drag (mouseup commits); "menu" = opened by
 // hotkey or tray (the next deliberate mousedown commits, opening mouseup is
 // ignored to avoid a flash).
 let openMode = null;
@@ -143,12 +143,12 @@ function rectsEqual(a, b) {
 }
 
 // Step 1: invisible click-blocking overlay covering the cursor's display.
-// Shown on Option-down so any subsequent click hits us, not the underlying app.
+// Shown on Control-down so any subsequent click hits us, not the underlying app.
 function showOverlay(screenPoint) {
   if (!win) return;
   const display = screen.getDisplayNearestPoint(screenPoint);
   // (Re-)anchor to the correct display, even if already shown — handles the
-  // case where Option was pressed on display A and the click lands on B.
+  // case where Control was pressed on display A and the click lands on B.
   if (!overlayShown || !rectsEqual(win.getBounds(), display.workArea)) {
     win.setBounds(display.workArea);
   }
@@ -304,7 +304,7 @@ function buildTray() {
   tray.setTitle("◉");
   tray.setToolTip("switchdial");
   // Tray icon left-click only opens the context menu — never the wheel.
-  // The wheel is triggered by the global hotkey or Option+click.
+  // The wheel is triggered by the global hotkey or Control+click.
   tray.setContextMenu(
     Menu.buildFromTemplate([
       { label: `Hotkey: ${HOTKEY}`, enabled: false },
@@ -324,8 +324,8 @@ function startInputHook() {
   }
 
   uIOhook.on("keydown", (e) => {
-    if (e.keycode === UiohookKey.Alt) {
-      optionDown = true;
+    if (e.keycode === UiohookKey.Ctrl) {
+      ctrlDown = true;
       // Cover the screen now, before the user has a chance to click.
       showOverlay(screen.getCursorScreenPoint());
     }
@@ -334,8 +334,8 @@ function startInputHook() {
     }
   });
   uIOhook.on("keyup", (e) => {
-    if (e.keycode === UiohookKey.Alt) {
-      optionDown = false;
+    if (e.keycode === UiohookKey.Ctrl) {
+      ctrlDown = false;
       // If they let go without clicking, drop the overlay.
       if (!wheelOpen) hideWheel();
     }
@@ -344,7 +344,7 @@ function startInputHook() {
   uIOhook.on("mousedown", (e) => {
     if (e.button !== 1) return;
     if (overlayShown && !wheelOpen) {
-      // Option held + click — gesture mode. mouseup will commit.
+      // Control held + click — gesture mode. mouseup will commit.
       showWheelAt({ x: e.x, y: e.y }, "gesture");
     } else if (wheelOpen && openMode === "menu") {
       // Menu mode (opened via hotkey/tray) — a deliberate click commits.
@@ -363,7 +363,7 @@ function startInputHook() {
   uIOhook.on("mouseup", (e) => {
     if (e.button !== 1) return;
     if (!wheelOpen) return;
-    // Only the gesture mode (Option+drag) commits on release. In menu mode
+    // Only the gesture mode (Control+drag) commits on release. In menu mode
     // we ignore mouseups so the tray/hotkey click that opened the wheel
     // doesn't immediately close it.
     if (openMode === "gesture") {

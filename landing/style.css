@@ -27,11 +27,11 @@ main {
   padding: 64px 24px 96px;
 }
 
-/* ---- Entrance animation (800ms staged) ----
-   1. h1                        @0–270ms   slide+fade
-   2. dial                      @160–430ms fade
-   3. tagline + button + brew   @320–590ms slide+fade
-   4. steps                     @530–800ms slide+fade
+/* ---- Entrance animation (1000ms staged) ----
+   1. h1                        @0–340ms    slide+fade
+   2. dial                      @200–540ms  fade
+   3. tagline + button + brew   @400–740ms  slide+fade
+   4. steps                     @660–1000ms slide+fade
 */
 @keyframes slide-fade-up {
   from {
@@ -53,20 +53,20 @@ main {
 }
 
 .hero-text h1 {
-  animation: slide-fade-up 270ms cubic-bezier(0.2, 0.8, 0.2, 1) 0ms both;
+  animation: slide-fade-up 340ms cubic-bezier(0.2, 0.8, 0.2, 1) 0ms both;
 }
 .dial,
 .try-me-arrow,
 .try-me-text {
-  animation: fade-in 270ms ease-out 160ms both;
+  animation: fade-in 340ms ease-out 200ms both;
 }
 .tagline,
 .actions,
 .brew-hint {
-  animation: slide-fade-up 270ms cubic-bezier(0.2, 0.8, 0.2, 1) 320ms both;
+  animation: slide-fade-up 340ms cubic-bezier(0.2, 0.8, 0.2, 1) 400ms both;
 }
 .steps {
-  animation: slide-fade-up 270ms cubic-bezier(0.2, 0.8, 0.2, 1) 530ms both;
+  animation: slide-fade-up 340ms cubic-bezier(0.2, 0.8, 0.2, 1) 660ms both;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -53,26 +53,15 @@
               height="100"
               aria-hidden="true"
             >
-              <defs>
-                <marker
-                  id="try-me-head"
-                  viewBox="0 0 10 4"
-                  refX="10"
-                  refY="2"
-                  markerWidth="7"
-                  markerHeight="2.5"
-                  orient="auto-start-reverse"
-                >
-                  <path d="M 0 0 L 10 2 L 0 4 z" fill="#b0b0b0" />
-                </marker>
-              </defs>
+              <!-- Curve to tip, then two arrowhead arms drawn from the same
+                   tip — all one path, hand-drawn feel. -->
               <path
-                d="M 130 90 Q 60 70 14 18"
+                d="M 130 90 Q 60 70 14 18 L 16 28 M 14 18 L 24 21"
                 stroke="#b0b0b0"
                 stroke-width="2"
                 fill="none"
-                stroke-linecap="butt"
-                marker-end="url(#try-me-head)"
+                stroke-linecap="round"
+                stroke-linejoin="round"
               />
             </svg>
             <span class="try-me-text" aria-hidden="true">try me</span>
@@ -96,7 +85,7 @@
           </li>
           <li>
             <p>04</p>
-            <p>Hold <kbd>⌥</kbd>, click, flick, release.</p>
+            <p>Hold <kbd>⌃</kbd>, click, flick, release.</p>
           </li>
         </ol>
       </section>

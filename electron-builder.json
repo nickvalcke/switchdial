@@ -19,7 +19,7 @@
     "extendInfo": {
       "LSUIElement": true,
       "NSAppleEventsUsageDescription": "switchdial needs to launch the apps you've added to your dial.",
-      "NSAccessibilityUsageDescription": "switchdial needs Accessibility access to detect your Option+click gesture anywhere on screen."
+      "NSAccessibilityUsageDescription": "switchdial needs Accessibility access to detect your Control+click gesture anywhere on screen."
     }
   }
 }
