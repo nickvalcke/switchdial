@@ -201,6 +201,8 @@ kbd {
   width: 360px;
   height: 360px;
   cursor: default;
+  /* Don't let the browser interpret a touch-drag as a scroll. */
+  touch-action: none;
 }
 .dial-svg,
 .rim-hover-svg {
@@ -341,5 +343,11 @@ footer a {
   .tagline {
     margin-left: auto;
     margin-right: auto;
+  }
+  /* Hide the "try me" annotation on small screens — there's no room for it
+     and touch users discover the interaction by tapping the dial directly. */
+  .try-me-arrow,
+  .try-me-text {
+    display: none;
   }
 }

@@ -110,12 +110,12 @@ function attachHover() {
   let lastSegment = null;
   let rotation = 0;
 
-  dial.addEventListener("mousemove", (e) => {
+  function update(clientX, clientY) {
     const r = dial.getBoundingClientRect();
     const cx = r.left + r.width / 2;
     const cy = r.top + r.height / 2;
-    const dx = e.clientX - cx;
-    const dy = e.clientY - cy;
+    const dx = clientX - cx;
+    const dy = clientY - cy;
     const angSeg = angleSegment(dx, dy);
     const hovered = hitTestSegment(dx, dy);
 
@@ -128,11 +128,9 @@ function attachHover() {
 
     if (angSeg !== null) {
       if (lastSegment === null) {
-        // First appearance — snap, no animation.
         rimSvg.style.transition = "none";
         rotation = angSeg * SEGMENT_DEG;
         rimSvg.style.transform = `rotate(${rotation}deg)`;
-        // force reflow so the next change can transition
         void rimSvg.offsetHeight;
         rimSvg.style.transition = "";
       } else if (angSeg !== lastSegment) {
@@ -149,15 +147,42 @@ function attachHover() {
 
     label.textContent =
       hovered !== null ? SEGMENTS[hovered].app : "Enter";
-  });
+  }
 
-  dial.addEventListener("mouseleave", () => {
+  function reset() {
     wedges.forEach((w) => w.classList.remove("is-hovered"));
     icons.forEach((ic) => ic.classList.remove("is-hovered"));
     rimSvg.style.opacity = "0";
     label.textContent = "Enter";
     lastSegment = null;
-  });
+  }
+
+  // Mouse
+  dial.addEventListener("mousemove", (e) => update(e.clientX, e.clientY));
+  dial.addEventListener("mouseleave", reset);
+
+  // Touch — non-passive so we can preventDefault and stop the page from
+  // scrolling under the finger while dragging on the dial.
+  dial.addEventListener(
+    "touchstart",
+    (e) => {
+      e.preventDefault();
+      const t = e.touches[0];
+      update(t.clientX, t.clientY);
+    },
+    { passive: false },
+  );
+  dial.addEventListener(
+    "touchmove",
+    (e) => {
+      e.preventDefault();
+      const t = e.touches[0];
+      update(t.clientX, t.clientY);
+    },
+    { passive: false },
+  );
+  dial.addEventListener("touchend", reset);
+  dial.addEventListener("touchcancel", reset);
 }
 
 buildDial();
