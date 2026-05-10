@@ -204,8 +204,9 @@ kbd {
   /* Don't let the browser interpret a touch-drag as a scroll. */
   touch-action: none;
 }
-.try-me-btn {
-  display: none; /* desktop hides it; mobile media query below shows it */
+.try-me-btn,
+.hold-down-hint {
+  display: none; /* desktop hides both; mobile media query below shows them */
 }
 .dial-svg,
 .rim-hover-svg {
@@ -379,13 +380,37 @@ footer a {
     font-weight: 600;
     cursor: pointer;
     pointer-events: auto;
+    touch-action: none; /* keep finger captured for the press-and-hold */
+  }
+  .dial .hold-down-hint {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 0.02em;
+    pointer-events: none;
+    /* hidden until engaged */
+    opacity: 0;
   }
   .dial.is-engaged {
     opacity: 1;
     pointer-events: auto;
-    touch-action: none;
   }
+  /* Button vanishes the moment the finger lands */
   .dial.is-engaged .try-me-btn {
-    display: none;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .dial.is-engaged .hold-down-hint {
+    display: block;
+    opacity: 1;
+  }
+  /* Hide the hold-down hint as soon as a segment is being hovered. */
+  .dial.is-engaged.has-hover .hold-down-hint {
+    opacity: 0;
   }
 }

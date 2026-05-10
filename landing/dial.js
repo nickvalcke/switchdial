@@ -147,6 +147,9 @@ function attachHover() {
 
     label.textContent =
       hovered !== null ? SEGMENTS[hovered].app : "Enter";
+    // Toggle the .has-hover class so the mobile "hold down" hint hides as
+    // soon as the user is over a segment.
+    dial.classList.toggle("has-hover", hovered !== null);
   }
 
   function reset() {
@@ -154,13 +157,35 @@ function attachHover() {
     icons.forEach((ic) => ic.classList.remove("is-hovered"));
     rimSvg.style.opacity = "0";
     label.textContent = "Enter";
+    dial.classList.remove("has-hover");
     lastSegment = null;
   }
 
-  // Mobile: tap "try me" to engage the dial.
+  // Mobile: press-and-hold "try me" to engage. Button captures the finger
+  // so subsequent touchmove/touchend continue to fire on it even after the
+  // visual button has been hidden.
   const tryBtn = dial.querySelector(".try-me-btn");
   if (tryBtn) {
-    tryBtn.addEventListener("click", () => dial.classList.add("is-engaged"));
+    function engage(e) {
+      e.preventDefault();
+      dial.classList.add("is-engaged");
+      const t = e.touches[0];
+      update(t.clientX, t.clientY);
+    }
+    function move(e) {
+      if (!dial.classList.contains("is-engaged")) return;
+      e.preventDefault();
+      const t = e.touches[0];
+      update(t.clientX, t.clientY);
+    }
+    function disengage() {
+      dial.classList.remove("is-engaged");
+      reset();
+    }
+    tryBtn.addEventListener("touchstart", engage, { passive: false });
+    tryBtn.addEventListener("touchmove", move, { passive: false });
+    tryBtn.addEventListener("touchend", disengage);
+    tryBtn.addEventListener("touchcancel", disengage);
   }
 
   // Mouse
