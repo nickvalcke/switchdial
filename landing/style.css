@@ -77,6 +77,20 @@ main {
   margin: 0;
   font-size: 13px;
   color: #6f6f6f;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.brew-hint code {
+  background: #181818;
+  border: 1px solid #232323;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-family:
+    "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  color: #d0d0d0;
 }
 
 kbd {
